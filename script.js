@@ -94,13 +94,13 @@ async function buscarSugestoes(texto) {
     return;
   }
 
-  const url = const url = `/.netlify/functions/sugestoes?texto=${texto}`;
+  const url = `/.netlify/functions/sugestoes?texto=${texto}`;
   const resposta = await fetch(url);
   const cidades = await resposta.json();
 
   // Monta um <li> pra cada cidade encontrada
   listaSugestoes.innerHTML = cidades.map(cidade => `
-    <li>${cidade.name}${cidade.state ? ', ' + cidade.state : ''}, ${cidade.country}</li>
+    <li>${cidade.name}${cidade.state ? ', ' + cidade.state : ''}, ${cidade.country}</li>clea
   `).join('');
 } // ← fecha a função buscarSugestoes
 
