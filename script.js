@@ -40,7 +40,7 @@ async function buscarClima(cidade) {
 
   // Monta a URL da requisição com os parâmetros necessários:
   // q = cidade | appid = chave | units = metric (Celsius) | lang = português
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=${apiKey}&units=metric&lang=pt_br`;
+ const url = `/.netlify/functions/clima?cidade=${cidade}`;
 
   // Faz a requisição pra API e espera a resposta chegar
   const resposta = await fetch(url);
@@ -94,7 +94,7 @@ async function buscarSugestoes(texto) {
     return;
   }
 
-  const url = `http://api.openweathermap.org/geo/1.0/direct?q=${texto}&limit=5&appid=${apiKey}`;
+  const url = const url = `/.netlify/functions/sugestoes?texto=${texto}`;
   const resposta = await fetch(url);
   const cidades = await resposta.json();
 
