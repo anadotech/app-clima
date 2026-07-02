@@ -11,4 +11,4 @@ exports.handler = async function (event) {
     statusCode: resposta.status,
     body: JSON.stringify(dados),
   };
-};cl
+};
