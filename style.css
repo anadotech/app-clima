@@ -1,0 +1,193 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.6s ease;
+  background: linear-gradient(135deg, #74b9ff, #0984e3); /* ← linha nova */
+}
+
+.container {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 2rem;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  text-align: center;
+  width: 320px;
+  color: white;
+}
+
+h1 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.busca {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+#inputCidade {
+  flex: 1;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.25);
+  color: white;
+}
+
+#inputCidade::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+#btnBuscar {
+  padding: 0.6rem 1rem;
+  background: rgba(255,255,255,0.3);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#btnBuscar:hover {
+  background: rgba(255,255,255,0.45);
+}
+
+.icone-clima {
+  font-size: 4rem;
+  margin-top: 0.5rem;
+}
+
+.nome-cidade {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 0.3rem;
+}
+
+.temperatura {
+  font-size: 4.5rem;
+  font-weight: 200;
+  line-height: 1;
+  margin: 0.3rem 0;
+}
+
+.descricao {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 1rem;
+  text-transform: capitalize;
+}
+
+.grid-info {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.card-info {
+  flex: 1;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.label-info {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.valor-info {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.busca {
+  position: relative; /* necessário pra lista flutuar corretamente */
+}
+
+.lista-sugestoes {
+  list-style: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  margin-top: 0.3rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 10;
+}
+
+.lista-sugestoes li {
+  padding: 0.6rem 1rem;
+  color: #333;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.lista-sugestoes li:hover {
+  background: rgba(9, 132, 227, 0.1);
+}
+
+.fundo-sol {
+  background: linear-gradient(135deg, #ffd93d, #ff8c42);
+}
+
+.fundo-noite {
+  background: linear-gradient(135deg, #2c3e50, #1a1a2e);
+}
+
+.fundo-nublado {
+  background: linear-gradient(135deg, #757f9a, #4a5568);
+}
+
+.fundo-chuva {
+  background: linear-gradient(135deg, #4b6cb7, #182848);
+}
+
+.fundo-neve {
+  background: linear-gradient(135deg, #5c7a99, #2c3e50);
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  h1 {
+    font-size: 1.1rem;
+  }
+
+  .temperatura {
+    font-size: 3.5rem;
+  }
+
+  .icone-clima {
+    font-size: 3rem;
+  }
+}
