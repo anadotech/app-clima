@@ -38,9 +38,9 @@ const fundosClima = {
 async function buscarClima(cidade) {
   resultado.innerHTML = `<p>Carregando...</p>`; // mostra isso assim que a busca começa
 
-  // Monta a URL da requisição com os parâmetros necessários:
-  // q = cidade | appid = chave | units = metric (Celsius) | lang = português
- const url = `/.netlify/functions/clima?cidade=${cidade}`;
+  // Monta a URL da requisição, codificando o nome da cidade
+  // pra não quebrar com espaços, acentos ou caracteres especiais
+  const url = `/.netlify/functions/clima?cidade=${encodeURIComponent(cidade)}`;
 
   // Faz a requisição pra API e espera a resposta chegar
   const resposta = await fetch(url);
@@ -85,6 +85,10 @@ async function buscarClima(cidade) {
   `;
 } // ← fecha a função buscarClima
 
+// ===== CONTROLE DO DEBOUNCE =====
+// Guarda o "timer" de espera entre uma digitação e outra
+let timerDebounce;
+
 // ===== FUNÇÃO: BUSCA SUGESTÕES DE CIDADES =====
 // Recebe o texto digitado e busca cidades que combinam, usando a Geocoding API
 async function buscarSugestoes(texto) {
@@ -94,13 +98,20 @@ async function buscarSugestoes(texto) {
     return;
   }
 
-  const url = `/.netlify/functions/sugestoes?texto=${texto}`;
+  // Codifica o texto pra não quebrar a URL com espaços, acentos, etc.
+  const url = `/.netlify/functions/sugestoes?texto=${encodeURIComponent(texto)}`;
   const resposta = await fetch(url);
   const cidades = await resposta.json();
 
+  // Se a API não devolveu uma lista (ex: erro ou objeto de erro), não tenta montar a lista
+  if (!Array.isArray(cidades)) {
+    listaSugestoes.innerHTML = '';
+    return;
+  }
+
   // Monta um <li> pra cada cidade encontrada
   listaSugestoes.innerHTML = cidades.map(cidade => `
-    <li>${cidade.name}${cidade.state ? ', ' + cidade.state : ''}, ${cidade.country}</li>clea
+    <li>${cidade.name}${cidade.state ? ', ' + cidade.state : ''}, ${cidade.country}</li>
   `).join('');
 } // ← fecha a função buscarSugestoes
 
@@ -112,9 +123,14 @@ btnBuscar.addEventListener('click', () => {
 });
 
 // ===== EVENTO DE DIGITAÇÃO NO CAMPO =====
-// Toda vez que a pessoa digita algo, busca sugestões de cidades
+// Toda vez que a pessoa digita algo, espera ela parar de digitar por 300ms
+// antes de buscar sugestões — evita disparar uma requisição a cada letra
 inputCidade.addEventListener('input', () => {
-  buscarSugestoes(inputCidade.value);
+  clearTimeout(timerDebounce);
+  const texto = inputCidade.value;
+  timerDebounce = setTimeout(() => {
+    buscarSugestoes(texto);
+  }, 300);
 });
 
 // ===== EVENTO DE CLIQUE NA LISTA DE SUGESTÕES =====
