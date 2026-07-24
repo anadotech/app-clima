@@ -1,14 +1,26 @@
 exports.handler = async function (event) {
-  const apiKey = process.env.OPENWEATHER_API_KEY;
+  const apiKey = process.env.GEODB_API_KEY;
   const texto = event.queryStringParameters.texto;
 
-  const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(texto)}&limit=5&appid=${apiKey}`;
+  // namePrefix = texto digitado | limit = quantidade de sugestões
+  // minPopulation = filtra cidades muito pequenas
+  // sort=-population = ordena das mais populosas pras menos populosas
 
-  const resposta = await fetch(url);
+  const url = `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${encodeURIComponent(texto)}&limit=5&minPopulation=1000&sort=-population`;
+
+  const resposta = await fetch(url, {
+    headers: {
+      'X-RapidAPI-Key': apiKey,
+      'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
+    },
+  });
+
   const dados = await resposta.json();
 
+  // A GeoDB devolve os resultados dentro de "data"
+  // Se der algum erro, devolve uma lista vazia pra não quebrar o front-end
   return {
     statusCode: resposta.status,
-    body: JSON.stringify(dados),
+    body: JSON.stringify(dados.data || []),
   };
 };

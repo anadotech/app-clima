@@ -110,8 +110,9 @@ async function buscarSugestoes(texto) {
   }
 
   // Monta um <li> pra cada cidade encontrada
+  // (a GeoDB usa "city" pro nome e "region" pro estado/província)
   listaSugestoes.innerHTML = cidades.map(cidade => `
-    <li>${cidade.name}${cidade.state ? ', ' + cidade.state : ''}, ${cidade.country}</li>
+    <li>${cidade.city}${cidade.region ? ', ' + cidade.region : ''}, ${cidade.country}</li>
   `).join('');
 } // ← fecha a função buscarSugestoes
 
